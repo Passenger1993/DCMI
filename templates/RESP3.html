@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Форма ввода данных</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+  div {
+        margin-bottom: 10px; /* Отступ снизу между строками формы */
+        }
+   form {
+            width: 80%; /* Ширина таблицы */
+      text-align: left;
+            margin: 0 auto; /* Центрирование таблицы */
+            border-collapse: collapse;
+      color: white; /* Цвет текста в таблице */
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: center;
+        }
+  .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007FFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 10px;
+      text-align: right;
+        }
+
+    </style>
+</head>
+
+<body>
+  <h1 style="color: white; font-family: Arial, sans-serif;">Форма ввода данных</h1>
+
+  <form id="dataForm" action="/save_data" method="post">
+    <div>
+    <label for="photo">Фото:</label>
+    <input type="text" id="photo" name="photo">
+    </div>
+    <div>
+    <label for="cat">Категория:</label>
+    <input type="text" id="cat" name="category">
+    </div>
+    <div>
+    <label for="num">Серийный номер:</label>
+    <input type="text" id="num" name="serial_number">
+    </div>
+    <div>
+    <label for="cost">Стоимость:</label>
+    <input type="number" id="cost" name="cost">
+    </div>
+    <div>
+    <label for="time">Срок службы:</label>
+    <input type="text" id="time" name="service_life">
+    </div>
+    <div>
+    <label for="place">Расположение:</label>
+    <input type="text" id="place" name="location">
+    </div>
+    <div>
+    <label for="date">Дата поверки:</label>
+    <input type="text" id="date" name="verification_date">
+    </div>
+    <div>
+    <label for="pers">Отвественный:</label>
+    <input type="text" id="pers" name="responsible_person">
+    </div>
+    <input type="submit" value="Отправить" class="button">
+    <a href="C:\\Users\\Алексей\\Documents\\PycharmProjects\\DMS\\DCMI\\templates\\RESP.html" class="button">На главную</a>
+  </form>
+
+  <script>
+    document.getElementById("dataForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Предотвращаем отправку формы по умолчанию
+
+      // Собираем данные из формы
+      var formData = new FormData(event.target);
+
+      // Отправляем данные на сервер
+      fetch("/save_data", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.text();
+      })
+      .then(data => {
+        console.log(data); // Выводим ответ от сервера в консоль
+        alert("Данные успешно отправлены и сохранены!");
+      })
+      .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+        alert("Произошла ошибка при отправке данных!");
+      });
+    });
+  </script>
+</body>
+</html>

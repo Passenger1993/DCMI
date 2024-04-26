@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>База данных</title>
+	<style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+ 	table {
+            width: 80%; /* Ширина таблицы */
+            margin: 0 auto; /* Центрирование таблицы */
+            border-collapse: collapse;
+	    color: white; /* Цвет текста в таблице */
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: left;
+        }
+	.button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007FFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: white; font-family: Arial, sans-serif;">База данных</h1>
+
+    <table>
+        <thead>
+            <tr>
+		<th>Фото</th>
+                <th>Категория</th>
+                <th>Серийный номер</th>
+                <th>Стоимость</th>
+		<th>Срок службы</th>
+		<th>Распололжение</th>
+		<th>Дата поверки</th>
+		<th>Ответственный</th>
+            </tr>
+        </thead>
+        <tbody>
+	{% for item in data %}
+            <tr>
+		<td><img src="C:\Users\Алексей\Downloads\КИП.jpg" alt="Описание изображения" width="200" height="200"></td>
+                <td> {{ item['cat'] }} </td>
+                <td> {{ item['num'] }} </td>
+                <td> {{ item['cost'] }} </td>
+		<td> {{ item['time'] }} </td>
+		<td> {{ item['place'] }} </td>
+		<td> {{ item['date'] }} </td>
+		<td> {{ item['pers'] }} </td>
+            </tr>
+	{% endfor %}
+            <tr>
+		<td>{{ item['photo'] }}</td>
+                <td> {{ item['cat'] }} </td>
+                <td> {{ item['num'] }} </td>
+                <td> {{ item['cost'] }} </td>
+		<td> {{ item['time'] }} </td>
+		<td> {{ item['place'] }} </td>
+		<td> {{ item['date'] }} </td>
+		<td> {{ item['pers'] }} </td>
+            </tr>
+            <tr>
+		<td> --- </td>
+                <td> {{ item['cat'] }} </td>
+                <td> {{ item['num'] }} </td>
+                <td> {{ item['cost'] }} </td>
+		<td> {{ item['time'] }} </td>
+		<td> {{ item['place'] }} </td>
+		<td> {{ item['date'] }} </td>
+		<td> {{ item['pers'] }} </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="C:\\Users\\Алексей\\Documents\\PycharmProjects\\DMS\\DCMI\\templates\\RESP.html" class="button">На главную</a>
+</body>
