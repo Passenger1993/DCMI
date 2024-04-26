@@ -10,6 +10,8 @@
             text-align: center;
             background-repeat: no-repeat;
             background-size: cover;
+            background-color: ff0000;
+            background-image: url("{{ url_for('static', filename='wall.jpg') }}");
         }
  	table {
             width: 80%; /* Ширина таблицы */
@@ -42,7 +44,8 @@
     <table>
         <thead>
             <tr>
-		<th>Фото</th>
+                <th>ID</th>
+                <th>Фото</th>
                 <th>Категория</th>
                 <th>Серийный номер</th>
                 <th>Стоимость</th>
@@ -53,39 +56,20 @@
             </tr>
         </thead>
         <tbody>
-	{% for item in data %}
+        {% for row in device %}
             <tr>
-		<td><img src="C:\Users\Алексей\Downloads\КИП.jpg" alt="Описание изображения" width="200" height="200"></td>
-                <td> {{ item['cat'] }} </td>
-                <td> {{ item['num'] }} </td>
-                <td> {{ item['cost'] }} </td>
-		<td> {{ item['time'] }} </td>
-		<td> {{ item['place'] }} </td>
-		<td> {{ item['date'] }} </td>
-		<td> {{ item['pers'] }} </td>
+                <td>{{ row.id if row.id else "Нет ID" }}</td>
+                <td><img alt="Описание изображения" height="200" src="/static/КИП.jpg" width="200"></td>
+                <td>{{ row.category if row.category else "Нет категории" }}</td>
+                <td>{{ row.serial if row.serial else "Нет серийного номера" }}</td>
+                <td>{{ row.price if row.price else "Нет стоимости" }}</td>
+                <td>{{ row.time if row.time else "Нет срока службы" }}</td>
+                <td>{{ row.location if row.location else "Нет расположения" }}</td>
+                <td>{{ row.date if row.date else "Нет даты поверки" }}</td>
+                <td>{{ row.person if row.person else "Нет ответственного" }}</td>
             </tr>
-	{% endfor %}
-            <tr>
-		<td>{{ item['photo'] }}</td>
-                <td> {{ item['cat'] }} </td>
-                <td> {{ item['num'] }} </td>
-                <td> {{ item['cost'] }} </td>
-		<td> {{ item['time'] }} </td>
-		<td> {{ item['place'] }} </td>
-		<td> {{ item['date'] }} </td>
-		<td> {{ item['pers'] }} </td>
-            </tr>
-            <tr>
-		<td> --- </td>
-                <td> {{ item['cat'] }} </td>
-                <td> {{ item['num'] }} </td>
-                <td> {{ item['cost'] }} </td>
-		<td> {{ item['time'] }} </td>
-		<td> {{ item['place'] }} </td>
-		<td> {{ item['date'] }} </td>
-		<td> {{ item['pers'] }} </td>
-            </tr>
+        {% endfor %}
         </tbody>
     </table>
-    <a href="C:\\Users\\Алексей\\Documents\\PycharmProjects\\DMS\\DCMI\\templates\\RESP.html" class="button">На главную</a>
+    <a class="button" href="{{ url_for('index') }}">На главную</a>
 </body>

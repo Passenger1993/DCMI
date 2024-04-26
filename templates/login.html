@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Форма ввода данных</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url("{{ url_for('static', filename='wall.jpg') }}");
+        }
+  div {
+        margin-bottom: 10px; /* Отступ снизу между строками формы */
+        }
+   form {
+            width: 80%; /* Ширина таблицы */
+      text-align: left;
+            margin: 0 auto; /* Центрирование таблицы */
+            border-collapse: collapse;
+      color: white; /* Цвет текста в таблице */
+        }
+        th, td {
+            border: 1px solid white;
+            padding: 8px;
+            text-align: center;
+        }
+  .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007FFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 10px;
+      text-align: right;
+        }
+
+    </style>
+</head>
+
+<body>
+<h1 style="color: white; font-family: Arial, sans-serif;">Введите логин и пароль:</h1>
+<div class="modal" id="authModal">
+    <div class="modal-content">
+        {% if error_message %}
+        <div class="error-message" style="color: white; font-family: Arial, sans-serif;">{{ error_message }}</div>
+        {% endif %}
+        <form action="{{ url_for('auth') }}" id="authForm" method="post">
+            <label for="username">Логин:</label>
+            <input id="username" name="username" required type="text">
+            <label for="password">Пароль:</label>
+            <input id="password" name="password" required type="password">
+            <br>
+            <button class="button" type="submit">Войти</button>
+        </form>
+        <div id="authMessage"></div>
+    </div>
+</div>
+</body>
+</html>

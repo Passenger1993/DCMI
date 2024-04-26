@@ -8,6 +8,7 @@
             text-align: center;
             background-repeat: no-repeat;
             background-size: cover;
+            background-image: url("{{ url_for('static', filename='wall.jpg') }}");
         }
   div {
         margin-bottom: 10px; /* Отступ снизу между строками формы */
@@ -38,6 +39,17 @@
       text-align: right;
         }
 
+      .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    }
+
+    .label-container {
+    width: 150px; /* Ширина label'ов */
+    margin-right: 10px;
+    text-align: center;
+    }
     </style>
 </head>
 
@@ -45,41 +57,93 @@
   <h1 style="color: white; font-family: Arial, sans-serif;">Форма ввода данных</h1>
 
   <form id="dataForm" action="/save_data" method="post">
-    <div>
-    <label for="photo">Фото:</label>
-    <input type="text" id="photo" name="photo">
+      <div class="form-group">
+          <label class="label-container" for="id">ID:</label>
+          <input class="form-control" id="id" name="id" type="text">
     </div>
-    <div>
-    <label for="cat">Категория:</label>
-    <input type="text" id="cat" name="category">
+      <div class="form-group">
+          <label class="label-container" for="photo">Фото:</label>
+          <input class="form-control" id="photo" name="photo" type="text">
     </div>
-    <div>
-    <label for="num">Серийный номер:</label>
-    <input type="text" id="num" name="serial_number">
+      <div class="form-group">
+          <label class="label-container" for="category">Категория:</label>
+          <input class="form-control" id="category" name="category" type="text">
     </div>
-    <div>
-    <label for="cost">Стоимость:</label>
-    <input type="number" id="cost" name="cost">
+      <div class="form-group">
+          <label class="label-container" for="serial">Серийный номер:</label>
+          <input class="form-control" id="serial" name="serial" type="text">
     </div>
-    <div>
-    <label for="time">Срок службы:</label>
-    <input type="text" id="time" name="service_life">
+      <div class="form-group">
+          <label class="label-container" for="price">Стоимость:</label>
+          <input class="form-control" id="price" name="price" type="text">
     </div>
-    <div>
-    <label for="place">Расположение:</label>
-    <input type="text" id="place" name="location">
+      <div class="form-group">
+          <label class="label-container" for="time">Срок службы:</label>
+          <input class="form-control" id="time" name="time" type="text">
     </div>
-    <div>
-    <label for="date">Дата поверки:</label>
-    <input type="text" id="date" name="verification_date">
+      <div class="form-group">
+          <label class="label-container" for="location">Расположение:</label>
+          <input class="form-control" id="location" name="location" type="text">
     </div>
-    <div>
-    <label for="pers">Отвественный:</label>
-    <input type="text" id="pers" name="responsible_person">
+      <div class="form-group">
+          <label class="label-container" for="date">Дата поверки:</label>
+          <input class="form-control" id="date" name="date" type="text">
+      </div>
+      <div class="form-group">
+          <label class="label-container" for="person">Ответственный:</label>
+          <input class="form-control" id="person" name="person" type="text">
     </div>
     <input type="submit" value="Отправить" class="button">
-    <a href="C:\\Users\\Алексей\\Documents\\PycharmProjects\\DMS\\DCMI\\templates\\RESP.html" class="button">На главную</a>
+      <a class="button" href="{{ url_for('delete') }}">Удалить</a>
+      <a class="button" href="{{ url_for('index') }}">На главную</a>
   </form>
+
+
+  <script>
+      var modal = document.getElementById("authModal");
+      var authForm = document.getElementById("authForm");
+      var authMessage = document.getElementById("authMessage");
+
+      window.onload = function() {
+          modal.style.display = "block";
+      }
+
+      authForm.addEventListener("submit", function(event) {
+          event.preventDefault();
+          var username = document.getElementById("username").value;
+          var password = document.getElementById("password").value;
+
+          // Отправка AJAX-запроса для авторизации
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "/auth", true);
+          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState === XMLHttpRequest.DONE) {
+                  if (xhr.status === 200) {
+                      // Авторизация успешна, закрываем модальное окно и выполняем другие действия
+                      modal.style.display = "none";
+                      // ...
+                  } else {
+                      // Авторизация не удалась, выводим сообщение об ошибке
+                      authMessage.textContent = "Неверный логин и/или пароль";
+                  }
+              }
+          }
+          xhr.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password));
+      });
+
+      var span = document.getElementsByClassName("close")[0];
+      span.onclick = function() {
+          modal.style.display = "none";
+      }
+
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
+  </script>
+
 
   <script>
     document.getElementById("dataForm").addEventListener("submit", function(event) {
