@@ -47,25 +47,31 @@
                 <th>ID</th>
                 <th>Фото</th>
                 <th>Категория</th>
+                <th>Величина</th>
                 <th>Серийный номер</th>
                 <th>Стоимость</th>
-		<th>Срок службы</th>
-		<th>Распололжение</th>
-		<th>Дата поверки</th>
-		<th>Ответственный</th>
+                <th>Срок службы</th>
+                <th>Распололжение</th>
+                <th>Дата поверки</th><
+                <th>Период поверки</th>
+                <th>Число поверок</th>
+                <th>Ответственный</th>
             </tr>
         </thead>
         <tbody>
         {% for row in device %}
             <tr>
                 <td>{{ row.id if row.id else "Нет ID" }}</td>
-                <td><img alt="Описание изображения" height="200" src="/static/КИП.jpg" width="200"></td>
+                <td><img alt="Описание изображения" height="200" src={{ row.photo }} width="200"></td>
                 <td>{{ row.category if row.category else "Нет категории" }}</td>
+                <td>{{ row.value if row.value else "Нет величины" }}</td>
                 <td>{{ row.serial if row.serial else "Нет серийного номера" }}</td>
                 <td>{{ row.price if row.price else "Нет стоимости" }}</td>
                 <td>{{ row.time if row.time else "Нет срока службы" }}</td>
                 <td>{{ row.location if row.location else "Нет расположения" }}</td>
                 <td>{{ row.date if row.date else "Нет даты поверки" }}</td>
+                <td>{{ row.period if row.period else "Нет периода" }}</td>
+                <td>{{ row.points if row.points else "Нет значения" }}</td>
                 <td>{{ row.person if row.person else "Нет ответственного" }}</td>
             </tr>
         {% endfor %}
