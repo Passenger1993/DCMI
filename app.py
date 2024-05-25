@@ -1,5 +1,4 @@
-from datetime import datetime
-
+from datetime import datetime, timedelta
 from flask import render_template, redirect, request, Flask, url_for
 from flask_sqlalchemy import SQLAlchemy
 
@@ -16,11 +15,14 @@ class Device(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     photo = db.Column(db.String(100), nullable=False)
     category = db.Column(db.String(100), nullable=False)
+    value = db.Column(db.String(100), nullable=False)
     serial = db.Column(db.Integer, primary_key=True)
     price = db.Column(db.Integer)
     time = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(100), nullable=False)
     date = db.Column(db.String(100), nullable=False)
+    period = db.Column(db.String(100), nullable=False)
+    points = db.Column(db.Integer, primary_key=True)
     person = db.Column(db.String(100), default=datetime.utcnow)
 
     def __repr__(self):
@@ -34,19 +36,30 @@ def index():
 
 @app.route('/table', methods=['GET', 'POST'])
 def table():
+
     if request.method == 'POST':
         id = request.form["id"]
         photo = request.form["photo"]
         category = request.form["category"]
+        value = request.form["value"]
         serial = request.form["serial"]
         price = request.form["price"]
         time = request.form["time"]
         location = request.form["location"]
         date = request.form["date"]
+
+        period_days = int(request.form["period"])
+        period = timedelta(days=period_days)
+
+        given_date = datetime.strptime(date, "%d.%m.%Y")
+        delta = datetime.now() - given_date
+
+        points = delta//period
+        points = request.form["points"]
         person = request.form["person"]
 
-        device = Device(id=id, photo=photo, category=category, serial=serial, price=price,
-                        time=time, location=location, date=date, person=person)
+        device = Device(id=id, photo=photo, category=category,value=value ,serial=serial, price=price,
+                        time=time,location=location, date=date, period = period ,points=points,person=person)
         try:
             db.session.add(device)
             db.session.commit()
@@ -97,14 +110,28 @@ def form():
         id = request.form['id']
         photo = request.form['photo']
         category = request.form['category']
+        value = request.form['value']
         serial = request.form['serial']
         price = request.form['price']
         time = request.form['time']
         location = request.form['location']
         date = request.form['date']
+        period = int(request.form["period"])
         person = request.form['person']
-        device = Device(id=id, photo=photo, category=category, serial=serial, price=price,
-                        time=time, location=location, date=date, person=person)
+
+        # Преобразование даты в объект datetime
+        date_obj = datetime.strptime(date, '%d.%m.%Y')
+
+        # Расчет разницы в днях между текущей датой и date
+        current_date = datetime.now()
+        days_difference = (current_date - date_obj).days
+
+        # Расчет переменной points
+        points = days_difference // period
+
+        device = Device(id=id, photo=photo, category=category,value = value, serial=serial, price=price,
+                        time=time, location=location, date=date, period=period,points = points ,person=person)
+
         try:
             db.session.add(device)
             db.session.commit()
@@ -117,6 +144,7 @@ def form():
 
 with app.app_context():
     db.create_all()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
